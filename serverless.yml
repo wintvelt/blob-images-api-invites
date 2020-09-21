@@ -52,12 +52,30 @@ provider:
       Resource: "arn:aws:s3:::*"
 
 functions:
-  hello:
-    handler: handler.hello
+  publicGetInvite:
+    handler: handlersInvite/publicGetInvite.main
     events:
       - http:
-          path: hello
+          path: /{id}
           method: get
+          cors: true
+          authorizer: aws_iam
+  acceptInvite:
+    handler: handlersInvite/acceptInvite.main
+    events:
+      - http:
+          path: /{id}
+          method: post
+          cors: true
+          authorizer: aws_iam
+  declineInvite:
+    handler: handlersInvite/acceptInvite.main
+    events:
+      - http:
+          path: /{id}
+          method: delete
+          cors: true
+          authorizer: aws_iam
 
 custom:
   customDomain:
