@@ -1,8 +1,7 @@
 {
   "name": "blob-images-api-invites",
-  "version": "2.2.0",
-  "description": "A Node.js starter for Serverless Framework with ES6 and TypeScript support",
-  "main": "handler.js",
+  "version": "1.0.0",
+  "description": "Blob images invites repo project",
   "scripts": {
     "test": "serverless-bundle test"
   },
@@ -12,11 +11,11 @@
       "\\.pnp\\.[^\\/]+$"
     ]
   },
-  "author": "",
+  "author": "Wouter",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AnomalyInnovations/serverless-nodejs-starter.git"
+    "url": "https://github.com/wintvelt/blob-images-api-invites.git"
   },
   "devDependencies": {
     "serverless-bundle": "2.0.0",
