@@ -13,7 +13,6 @@ export const main = handler(async (event, context) => {
 
     // delete the invite
     await dynamoDb.delete({
-        TableName: process.env.photoTable,
         Key: { PK: invite.PK, SK: invite.SK },
     });
 

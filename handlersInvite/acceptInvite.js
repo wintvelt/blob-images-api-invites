@@ -26,7 +26,6 @@ export const main = handler(async (event, context) => {
         let TransactItems = [
             {
                 Delete: {
-                    TableName: process.env.photoTable,
                     Key: { PK: invite.PK, SK: invite.SK },
                 }
             },
@@ -37,7 +36,6 @@ export const main = handler(async (event, context) => {
         const hasBetterRoleForMember = (membership && membership.role === 'guest' && invite.role === 'admin');
         if (hasBetterRoleForMember) TransactItems.push({
             Update: {
-                TableName: process.env.photoTable,
                 Key: { PK: 'UM' + userId, SK: invite.SK },
                 UpdateExpression: 'SET #r = :r, #i = :i',
                 ExpressionAttributeNames: { '#r': 'role', '#i': 'invitation' },
@@ -46,7 +44,6 @@ export const main = handler(async (event, context) => {
         });
         if (!membership) TransactItems.push({
             Put: {
-                TableName: process.env.photoTable,
                 Item: dbItem({
                     PK: 'UM' + userId,
                     SK: invite.SK,

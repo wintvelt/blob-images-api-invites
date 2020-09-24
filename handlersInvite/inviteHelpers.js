@@ -14,7 +14,6 @@ export const getInvite = async (userId, inviteId) => {
     if (inviteIsForAuthUser && Key.PK.slice(2) !== userId) throw new Error('invite not for you');
 
     const params = {
-        TableName: process.env.photoTable,
         Key
     };
 
