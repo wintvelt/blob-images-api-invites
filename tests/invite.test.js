@@ -1,5 +1,5 @@
 import { otob } from 'blob-common/core/base64';
-import { eventContext, testUserId2, testGroupId, sleep } from './context';
+import { eventContext, testUserId2, testUserId ,testGroupId, sleep } from './context';
 import { main as getInvite } from '../handlersInvite/publicGetInvite';
 import { main as acceptInvite } from '../handlersInvite/acceptInvite';
 import { main as declineInvite } from '../handlersInvite/publicDeclineInvite';
@@ -47,18 +47,20 @@ describe('Process invite', () => {
     //     const response = await acceptInvite(event);
     // expect(response.statusCode).toEqual(200);
     // });
-    // test('decline email invite for existing member', async () => {
-    //     await dbCreateItem(testUser2);
-    //     await dbCreateItem({
-    //         PK: 'UM' + testUser2Id,
-    //         SK: testGroupId,
-    //         user: testUser2,
-    //         group: testGroup,
-    //         status: 'active',
-    //         role: 'guest'
+    // test('decline email invite for diff existing member', async () => {
+    //     const event = eventContext({
+    //         userId: testUserId,
+    //         pathParameters: { id: inviteIdForUser }
     //     });
-    //     await sleep(TIMEOUT);
-    //     const response = await declineInvite(inviteEvent(testUser2Id));
+    //     const response = await declineInvite(event);
+    //     expect(response.statusCode).toEqual(500);
+    // });
+    // test('decline email invite for same existing member', async () => {
+    //     const event = eventContext({
+    //         userId: testUserId2,
+    //         pathParameters: { id: inviteIdForUser }
+    //     });
+    //     const response = await declineInvite(event);
     //     expect(response.statusCode).toEqual(200);
     // });
 }, TIMEOUT + 3000);
