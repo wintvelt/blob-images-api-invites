@@ -5,7 +5,7 @@ import { dbItem } from "blob-common/core/dbCreate";
 import { cleanRecord } from "blob-common/core/dbClean";
 import { getInvite } from './inviteHelpers';
 
-import { getMember } from "../libs/dynamodb-lib-single";
+import { getMemberAndInvite } from "../libs/dynamodb-lib-single";
 import { getUser } from "../libs/dynamodb-lib-user";
 import { acceptedInvite } from "../emails/acceptedInvite";
 
@@ -31,18 +31,19 @@ export const main = handler(async (event, context) => {
             },
         ];
         const user = await getUser(userId);
-        // user may already be a member (with different email)
-        const membership = await getMember(userId, invite.SK);
-        const hasBetterRoleForMember = (membership && membership.role === 'guest' && invite.role === 'admin');
+        // user may already be a member or invitee (maybe with different email)
+        const membership = await getMemberAndInvite(userId, invite.SK);
+        const isStillInvite = (membership && membership.status === 'invite');
+        const hasBetterRoleForMember = (membership && !isStillInvite && membership.role === 'guest' && invite.role === 'admin');
         if (hasBetterRoleForMember) TransactItems.push({
             Update: {
                 Key: { PK: 'UM' + userId, SK: invite.SK },
-                UpdateExpression: 'SET #r = :r, #i = :i',
-                ExpressionAttributeNames: { '#r': 'role', '#i': 'invitation' },
-                ExpressionAttributeValues: { ':r': invite.role, ':i': invite.invitation },
+                UpdateExpression: 'SET #r = :r, #i = :i, #s = :s',
+                ExpressionAttributeNames: { '#r': 'role', '#i': 'invitation', '#s': 'status' },
+                ExpressionAttributeValues: { ':r': invite.role, ':i': invite.invitation, ':s': 'active' },
             }
         });
-        if (!membership) TransactItems.push({
+        if (!membership || isStillInvite) TransactItems.push({
             Put: {
                 Item: dbItem({
                     PK: 'UM' + userId,
