@@ -62,7 +62,6 @@ functions:
           path: /{id}
           method: get
           cors: true
-          authorizer: aws_iam
   acceptInvite:
     handler: handlersInvite/acceptInvite.main
     events:
@@ -72,13 +71,12 @@ functions:
           cors: true
           authorizer: aws_iam
   declineInvite:
-    handler: handlersInvite/acceptInvite.main
+    handler: handlersInvite/publicDeclineInvite.main
     events:
       - http:
           path: /{id}
           method: delete
           cors: true
-          authorizer: aws_iam
 
 custom:
   customDomain:

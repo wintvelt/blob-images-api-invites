@@ -9,9 +9,10 @@ export const getInvite = async (userId, inviteId) => {
     } catch (_) {
         throw new Error('invite ID invalid');
     }
+    console.log(Key);
     // check if invite is for user, if so: must be logged in user
     const inviteIsForAuthUser = (Key.PK.slice(0, 3) === 'UMU') && (!Key.PK.includes('@'));
-    if (inviteIsForAuthUser && Key.PK.slice(2) !== userId) throw new Error('invite not for you');
+    if (inviteIsForAuthUser && (!userId || Key.PK.slice(2) !== userId)) throw new Error('invite not for you');
 
     const params = {
         Key
