@@ -4,12 +4,12 @@ import {
 } from 'blob-common/core/email';
 
 const dividerSrc = makeEmailSrc('public/img/invite_divider.png');
-const baseUrl = process.env.frontend || process.env.devFrontend || 'https://localhost:3000'
+const baseUrl = process.env.frontend || process.env.devFrontend || 'https://localhost:3000';
 
 export const acceptInviteText = ({ toName, fromName, groupName, groupId }) => {
     const url = `${baseUrl}/personal/groups/${groupId}`;
     return `Hi ${toName}, ${fromName} heeft je uitnodiging om lid te worden van "${groupName}" geaccepteerd! 
-Bezoek ${url} om te kijken of er nieuws is`
+Bezoek ${url} om te kijken of er nieuws is`;
 };
 
 export const acceptInviteBody = ({ toName, fromName, groupName, groupId }) => {
@@ -29,5 +29,5 @@ export const acceptInviteBody = ({ toName, fromName, groupName, groupId }) => {
             signatureCell(makeEmailSrc('public/img/signature_wouter.png'))
         ]),
         footerRow
-    ])
+    ]);
 };

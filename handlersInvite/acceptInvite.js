@@ -74,7 +74,7 @@ export const main = handler(async (event, context) => {
         subject: `${params.fromName} heeft je uitnodiging om lid te worden van "${params.groupName}" geaccepteerd`,
         data: niceBody,
         textData: textBody
-    });;
+    });
 
     return 'done';
 });
