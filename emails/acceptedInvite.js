@@ -1,45 +1,33 @@
-export const acceptedInvite = ({toName, toEmail, fromName, groupName, url}) => ({
-    Destination: {
-        ToAddresses: [
-            toEmail,
-        ]
-    },
-    Message: {
-        Body: {
-            Html: {
-                Charset: "UTF-8",
-                Data: `<table align="center" cellpadding="8" cellspacing="0 " width="600" style="border-collapse: collapse;">
-                        <tr>
-                            <td>
-                                <h2>Hi ${toName},</h2>
-                                <br/>
-                                Yohoo! ${fromName} has accepted your invite to join "${groupName}" 
-                                on Photo duck<br/>
-                                Visit <a href=${url}>the ${groupName} page</a> to find out if there's anything new<br/>
-                                <br/>
-                                Hope to see you again soon!
-                                <br/>
-                            </td>
-                        </tr>
-                        <tr><td>All the best from the team at <a href="https://photo-duck.com">Photo duck</a>.</td></tr>
-                    </table>
-            `
-            },
-            Text: {
-                Charset: "UTF-8",
-                Data: `Hi ${toName},
-                    ${fromName} has accepted your invite you to join "${groupName}".
-                    Visit ${url} to see the latest!
-                    `
-            }
-        },
-        Subject: {
-            Charset: "UTF-8",
-            Data: `${fromName} has accepted your invite to join "${groupName}" on Photo duck.`
-        }
-    },
-    ReplyToAddresses: [
-        "wintvelt@xs4all.nl",
-    ],
-    Source: "wintvelt@xs4all.nl",
-});
+import {
+    dividerCell, emailBody, row, textCell,
+    footerRow, greeting, headerRow, paragraph, signatureCell, makeEmailSrc
+} from 'blob-common/core/email';
+
+const dividerSrc = makeEmailSrc('public/img/invite_divider.png');
+const baseUrl = process.env.frontend || process.env.devFrontend || 'https://localhost:3000'
+
+export const acceptInviteText = ({ toName, fromName, groupName, groupId }) => {
+    const url = `${baseUrl}/personal/groups/${groupId}`;
+    return `Hi ${toName}, ${fromName} heeft je uitnodiging om lid te worden van "${groupName}" geaccepteerd! 
+Bezoek ${url} om te kijken of er nieuws is`
+};
+
+export const acceptInviteBody = ({ toName, fromName, groupName, groupId }) => {
+    const url = `${baseUrl}/personal/groups/${groupId}`;
+
+    return emailBody([
+        headerRow(makeEmailSrc('public/img/logo_email_1.png')),
+        row([
+            dividerCell(makeEmailSrc('public/img/accepted.png')),
+            textCell(greeting(`Hi ${toName},`)),
+            textCell(paragraph(`Yeey! ${fromName} heeft je uitnodiging om lid te worden van <strong><span style="font-size: 16px;">${groupName}</span></strong> geaccepteerd(en terecht)`)),
+            textCell(paragraph(`Kijk op <a href="${url}">de ${groupName} pagina</a> om te zien of er nieuws is`)),
+            dividerCell(dividerSrc),
+        ]),
+        row([
+            textCell(paragraph('We zien je graag terug op clubalmanac')),
+            signatureCell(makeEmailSrc('public/img/signature_wouter.png'))
+        ]),
+        footerRow
+    ])
+};

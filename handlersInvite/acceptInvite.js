@@ -7,7 +7,7 @@ import { getInvite } from './inviteHelpers';
 
 import { getMemberAndInvite } from "../libs/dynamodb-lib-single";
 import { getUser } from "../libs/dynamodb-lib-user";
-import { acceptedInvite } from "../emails/acceptedInvite";
+import { acceptInviteText, acceptInviteBody } from "../emails/acceptedInvite";
 
 export const main = handler(async (event, context) => {
     const userId = getUserFromEvent(event);
@@ -58,17 +58,23 @@ export const main = handler(async (event, context) => {
         });
         await dynamoDb.transact({ TransactItems });
     }
-
-    const mailParams = {
+    const params = {
         toName: invite.invitation.from.name,
-        toEmail: invite.invitation.from.email,
         fromName: invite.user.name,
         groupName: invite.group.name,
-        url: `${process.env.FRONTEND}/personal/groups/${invite.group.id}`,
+        groupId: invite.group.id
     };
-    console.log(JSON.stringify(mailParams, null, 2));
 
-    await ses.send(acceptedInvite(mailParams));
+    const niceBody = acceptInviteBody(params);
+    const textBody = acceptInviteText(params);
+
+    await ses.sendEmail({
+        toEmail: invite.invitation.from.email,
+        fromEmail: 'clubalmanac <wouter@clubalmanac.com>',
+        subject: `${params.fromName} heeft je uitnodiging om lid te worden van "${params.groupName}" geaccepteerd`,
+        data: niceBody,
+        textData: textBody
+    });;
 
     return 'done';
 });
