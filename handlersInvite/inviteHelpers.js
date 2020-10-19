@@ -3,6 +3,7 @@ import { expireDate, now } from "blob-common/core/date";
 import { btoa } from "blob-common/core/base64";
 
 export const getInvite = async (userId, inviteId) => {
+    console.log({userId});
     let Key;
     try {
         Key = JSON.parse(btoa(inviteId));
