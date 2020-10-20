@@ -21,7 +21,7 @@ export const main = handler(async (event, context) => {
         toName: invite.invitation.from.name,
         fromName: invite.user.name,
         groupName: invite.group.name,
-        groupId: invite.group.id
+        groupId: invite.group.SK
     };
 
     const niceBody = declineInviteBody(params);
