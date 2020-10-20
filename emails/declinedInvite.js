@@ -16,7 +16,7 @@ export const declineInviteBody = ({ toName, fromName, groupName, groupId }) => {
     const url = `${baseUrl}/personal/groups/${groupId}`;
 
     return emailBody([
-        headerRow(makeEmailSrc('public/img/logo_email_1.png')),
+        headerRow(makeEmailSrc('public/img/logo_email_1.png'), baseUrl),
         row([
             dividerCell(makeEmailSrc('public/img/declined.png')),
             textCell(greeting(`Hi ${toName},`)),
