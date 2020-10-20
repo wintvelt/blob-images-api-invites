@@ -18,7 +18,7 @@ export const declineInviteBody = ({ toName, fromName, groupName, groupId }) => {
     return emailBody([
         headerRow(makeEmailSrc('public/img/logo_email_1.png'), baseUrl),
         row([
-            dividerCell(makeEmailSrc('public/img/declined.png')),
+            dividerCell(makeEmailSrc('public/img/declined2.png')),
             textCell(greeting(`Hi ${toName},`)),
             textCell(paragraph(`Balen! ${fromName} heeft je uitnodiging om lid te worden van <strong><span style="font-size: 16px;">${groupName}</span></strong> afgewezen<br/>
             Typisch geval van ongepast eigen initiatief`)),

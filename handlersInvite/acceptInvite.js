@@ -63,7 +63,8 @@ export const main = handler(async (event, context) => {
         toName: invite.invitation.from.name,
         fromName: invite.user.name,
         groupName: invite.group.name,
-        groupId: invite.group.SK
+        groupId: invite.group.SK,
+        photoUrl: invite.group.photo?.url
     };
 
     const niceBody = acceptInviteBody(params);
