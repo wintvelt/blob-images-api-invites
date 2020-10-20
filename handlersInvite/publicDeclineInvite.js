@@ -3,7 +3,7 @@ import { dynamoDb } from "blob-common/core/db";
 import { ses } from "blob-common/core/ses";
 
 import { getInvite } from './inviteHelpers';
-import { declinedInvite } from "../emails/declinedInvite";
+import { declineInviteBody, declineInviteText } from "../emails/declinedInvite";
 
 export const main = handler(async (event, context) => {
     const userId = getUserFromEvent(event);
@@ -16,16 +16,24 @@ export const main = handler(async (event, context) => {
         Key: { PK: invite.PK, SK: invite.SK },
     });
 
-    const mailParams = {
+    // send message to invitor
+    const params = {
         toName: invite.invitation.from.name,
-        toEmail: invite.invitation.from.email,
         fromName: invite.user.name,
         groupName: invite.group.name,
-        url: `${process.env.FRONTEND}/personal/groups/${invite.group.id}`,
+        groupId: invite.group.id
     };
-    console.log(JSON.stringify(mailParams, null, 2));
 
-    await ses.send(declinedInvite(mailParams));
+    const niceBody = declineInviteBody(params);
+    const textBody = declineInviteText(params);
+
+    await ses.sendEmail({
+        toEmail: invite.invitation.from.email,
+        fromEmail: 'clubalmanac <wouter@clubalmanac.com>',
+        subject: `Helaas! ${params.fromName} heeft je uitnodiging om lid te worden van "${params.groupName}" afgewezen`,
+        data: niceBody,
+        textData: textBody
+    });
 
     return 'done';
 });

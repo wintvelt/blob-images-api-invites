@@ -58,6 +58,7 @@ export const main = handler(async (event, context) => {
         });
         await dynamoDb.transact({ TransactItems });
     }
+    // send message to invitor
     const params = {
         toName: invite.invitation.from.name,
         fromName: invite.user.name,
