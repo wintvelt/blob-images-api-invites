@@ -10,5 +10,5 @@ module.exports.photoTable = () => ({
 
 module.exports.frontend = () => ({
     'dev': 'http://localhost:3000',
-    'prod': 'clubalmanac.com'
+    'prod': 'https://clubalmanac.com'
 });
