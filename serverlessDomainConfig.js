@@ -8,6 +8,11 @@ module.exports.photoTable = () => ({
     'prod': 'blob-images-photos-prod'
 });
 
+module.exports.bucket = () => ({
+    'dev': 'blob-images-dev',
+    'prod': 'blob-images'
+});
+
 module.exports.frontend = () => ({
     'dev': 'https://localhost:3000',
     'prod': 'https://clubalmanac.com'
